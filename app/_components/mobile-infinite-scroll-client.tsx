@@ -119,7 +119,7 @@ export function MobileInfiniteScrollClient({ photos }: { photos: Photo[] }) {
   const midpoint = Math.ceil(photos.length / 2);
   const firstRowPhotos = photos.slice(0, midpoint);
   const secondRowPhotos = photos.slice(midpoint);
-  const isMobile = useMedia("(max-width: 576px)");
+  const isMobile = useMedia("(max-width: 576px)", false);
 
   return (
     <div className="w-full bg-black py-8">

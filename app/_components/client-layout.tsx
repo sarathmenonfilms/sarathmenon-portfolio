@@ -5,7 +5,7 @@ import { ReactLenis } from "lenis/react";
 import { useMedia } from "react-use";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
-  const isMobile = useMedia("(max-width: 768px)");
+  const isMobile = useMedia("(max-width: 768px)", false);
 
   const scrollSettings: LenisOptions = isMobile
     ? {

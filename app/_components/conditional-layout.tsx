@@ -14,7 +14,7 @@ interface ConditionalLayoutProps {
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname()
   const isStudioRoute = pathname?.startsWith('/studio')
-  const isMobile = useMedia('(max-width: 768px)')
+  const isMobile = useMedia('(max-width: 768px)', false)
 
   const scrollSettings: LenisOptions = isMobile
     ? {

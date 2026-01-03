@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
+import Image from "next/image";
 import VideoPreloader from "./video-preloader";
 import { HeroVideoData } from "../lib/sanity-queries";
 import { Volume2, VolumeX } from "lucide-react";
@@ -163,10 +164,11 @@ export default function HeroVideo({ videoData }: HeroVideoProps) {
     if (videoData.poster?.asset?.url) {
       return (
         <div className="relative h-screen w-full overflow-hidden">
-          <img
+          <Image
             src={videoData.poster.asset.url}
             alt={videoData.title || "Showreel poster"}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
 
           {/* Optional overlay */}

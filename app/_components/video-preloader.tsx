@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
 
@@ -8,19 +8,6 @@ interface VideoPreloaderProps {
   progress: number;
   isComplete: boolean;
   onAnimationComplete: () => void;
-}
-
-interface LogoData {
-  _id: string;
-  logoImage?: {
-    asset: {
-      _id: string;
-      url: string;
-    };
-    alt?: string;
-  };
-  altText: string;
-  fallbackText: string;
 }
 
 export default function VideoPreloader({
