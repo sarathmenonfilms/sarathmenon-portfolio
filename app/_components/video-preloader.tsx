@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
-import { client } from "@/sanity/lib/client";
-import { logoQuery } from "@/sanity/lib/queries";
 
 interface VideoPreloaderProps {
   progress: number;
@@ -32,23 +30,6 @@ export default function VideoPreloader({
 }: VideoPreloaderProps) {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
-  const [logoData, setLogoData] = useState<LogoData | null>(null);
-  const [logoLoading, setLogoLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLogo = async () => {
-      try {
-        const data = await client.fetch(logoQuery);
-        setLogoData(data);
-      } catch (error) {
-        console.error("Error fetching logo:", error);
-      } finally {
-        setLogoLoading(false);
-      }
-    };
-
-    fetchLogo();
-  }, []);
 
   useEffect(() => {
     // Animate progress number
@@ -86,24 +67,14 @@ export default function VideoPreloader({
         {/* Logo - bigger than the loader */}
         <div className="mb-16 flex justify-center">
           <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-            {logoLoading ? (
-              <div className="text-6xl md:text-8xl font-bold text-white">
-                SM
-              </div>
-            ) : !logoData || !logoData.logoImage ? (
-              <div className="text-6xl md:text-8xl font-bold text-white">
-                {logoData?.fallbackText || "SM"}
-              </div>
-            ) : (
-              <Image
-                src={logoData.logoImage.asset.url}
-                alt={logoData.altText}
-                width={256}
-                height={256}
-                className="w-full h-full object-contain"
-                priority
-              />
-            )}
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={256}
+              height={256}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
         </div>
 
