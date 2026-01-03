@@ -34,24 +34,27 @@ export default function About() {
   }, []);
 
   // Helper function to truncate text to approximately 150 words while preserving paragraph structure
-  const truncateText = (text: string, wordLimit: number = 150): { truncated: string; needsTruncation: boolean } => {
-    const words = text.split(' ');
+  const truncateText = (
+    text: string,
+    wordLimit: number = 150,
+  ): { truncated: string; needsTruncation: boolean } => {
+    const words = text.split(" ");
     if (words.length <= wordLimit) {
       return { truncated: text, needsTruncation: false };
     }
-    
+
     // Find a good breaking point near the word limit, preferably at paragraph end
     const breakPoint = wordLimit;
     const truncatedWords = words.slice(0, breakPoint);
-    const truncatedText = truncatedWords.join(' ');
-    
+    const truncatedText = truncatedWords.join(" ");
+
     // Try to break at a paragraph boundary if possible
-    const paragraphs = text.split('\n\n');
+    const paragraphs = text.split("\n\n");
     let wordCount = 0;
     const truncatedParagraphs = [];
-    
+
     for (const paragraph of paragraphs) {
-      const paragraphWords = paragraph.split(' ').length;
+      const paragraphWords = paragraph.split(" ").length;
       if (wordCount + paragraphWords <= wordLimit) {
         truncatedParagraphs.push(paragraph);
         wordCount += paragraphWords;
@@ -60,19 +63,19 @@ export default function About() {
         break;
       }
     }
-    
+
     // If we have complete paragraphs within limit, use those
     if (truncatedParagraphs.length > 0 && wordCount > wordLimit * 0.7) {
       return {
-        truncated: truncatedParagraphs.join('\n\n') + '...',
-        needsTruncation: true
+        truncated: truncatedParagraphs.join("\n\n") + "...",
+        needsTruncation: true,
       };
     }
-    
+
     // Otherwise, use word-based truncation
-    return { 
-      truncated: truncatedText + '...', 
-      needsTruncation: true 
+    return {
+      truncated: truncatedText + "...",
+      needsTruncation: true,
     };
   };
 
@@ -95,7 +98,10 @@ export default function About() {
   const { truncated, needsTruncation } = truncateText(fullText);
 
   return (
-    <section id="about" className="min-h-screen bg-black text-white py-20 px-6">
+    <section
+      id="about"
+      className="lg:min-h-screen bg-black text-white py-20 px-6"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Fixed Header */}
         <div className="text-center mb-16">
@@ -108,8 +114,11 @@ export default function About() {
             {/* Desktop - Show full text */}
             <div className="hidden lg:block space-y-6">
               {aboutData?.description ? (
-                aboutData.description.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="text-lg text-gray-300 leading-relaxed text-left">
+                aboutData.description.split("\n\n").map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className="text-lg text-gray-300 leading-relaxed text-left"
+                  >
                     {paragraph.trim()}
                   </p>
                 ))
@@ -124,19 +133,24 @@ export default function About() {
             <div className="lg:hidden">
               {aboutData?.description ? (
                 <div className="space-y-6">
-                  {(isExpanded ? fullText : truncated).split('\n\n').map((paragraph, index) => (
-                    <p key={index} className="text-lg text-gray-300 leading-relaxed text-left">
-                      {paragraph.trim()}
-                    </p>
-                  ))}
-                  
+                  {(isExpanded ? fullText : truncated)
+                    .split("\n\n")
+                    .map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className="text-lg text-gray-300 leading-relaxed text-left"
+                      >
+                        {paragraph.trim()}
+                      </p>
+                    ))}
+
                   {needsTruncation && (
                     <div className="text-center">
                       <button
                         onClick={() => setIsExpanded(!isExpanded)}
                         className="mt-8 px-6 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg text-white transition-all duration-300 hover:scale-105"
                       >
-                        {isExpanded ? 'Read Less' : 'Read More'}
+                        {isExpanded ? "Read Less" : "Read More"}
                       </button>
                     </div>
                   )}

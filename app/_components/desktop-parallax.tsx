@@ -39,33 +39,33 @@ const DesktopParallaxClient = ({ photos }: { photos: Photo[] }) => {
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig
+    springConfig,
   );
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig
+    springConfig,
   );
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig
+    springConfig,
   );
   const opacity = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig
+    springConfig,
   );
   const rotateZ = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig
+    springConfig,
   );
   const translateY = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
-    springConfig
+    springConfig,
   );
 
   return (
     <div
       ref={ref}
-      className="h-[120vh] xl:h-[160vh] py-10 md:py-20 overflow-hidden antialiased relative flex flex-col self-auto [perspective:2000px] [transform-style:preserve-3d] bg-black -mt-96 -z-10"
+      className="h-[120vh] xl:h-[160vh]  overflow-hidden antialiased relative flex flex-col self-auto [perspective:2000px] [transform-style:preserve-3d] bg-black -mt-96 -z-10"
     >
       <motion.div
         style={{
@@ -86,7 +86,7 @@ const DesktopParallaxClient = ({ photos }: { photos: Photo[] }) => {
             />
           ))}
         </motion.div>
-        
+
         {/* Second Row - Always visible */}
         <motion.div className="flex flex-row mb-2 sm:mb-3 md:mb-4 lg:mb-6 space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6">
           {secondRow.map((photo, idx) => (
@@ -97,7 +97,7 @@ const DesktopParallaxClient = ({ photos }: { photos: Photo[] }) => {
             />
           ))}
         </motion.div>
-        
+
         {/* Third Row - Only visible on full desktop (xl and above) */}
         <motion.div className="hidden xl:flex flex-row-reverse space-x-reverse space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6">
           {thirdRow.map((photo, idx) => (
@@ -153,7 +153,9 @@ export default function DesktopParallax() {
     async function getAllPhotos() {
       try {
         const categories: Category[] = await client.fetch(allPhotosQuery);
-        const allPhotos = categories.flatMap(category => category.photos || []);
+        const allPhotos = categories.flatMap(
+          (category) => category.photos || [],
+        );
         setPhotos(allPhotos);
       } catch (error) {
         console.error("Error fetching photos:", error);

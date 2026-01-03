@@ -35,8 +35,8 @@ export const StickyScroll = ({
           {
             root: null, // Use viewport as root
             rootMargin: "-50% 0px -50% 0px", // Trigger when item is in center of viewport
-            threshold: 0
-          }
+            threshold: 0,
+          },
         );
 
         observer.observe(item);
@@ -45,7 +45,7 @@ export const StickyScroll = ({
     });
 
     return () => {
-      observers.forEach(observer => observer.disconnect());
+      observers.forEach((observer) => observer.disconnect());
     };
   }, [content.length]);
 
@@ -55,14 +55,17 @@ export const StickyScroll = ({
     "#1a1a1a", // dark gray
   ];
 
-  const linearGradients = useMemo(() => [
-    "linear-gradient(to bottom right, #06b6d4, #10b981)", // cyan to emerald
-    "linear-gradient(to bottom right, #ec4899, #6366f1)", // pink to indigo
-    "linear-gradient(to bottom right, #f97316, #eab308)", // orange to yellow
-  ], []);
+  const linearGradients = useMemo(
+    () => [
+      "linear-gradient(to bottom right, #06b6d4, #10b981)", // cyan to emerald
+      "linear-gradient(to bottom right, #ec4899, #6366f1)", // pink to indigo
+      "linear-gradient(to bottom right, #f97316, #eab308)", // orange to yellow
+    ],
+    [],
+  );
 
   const [backgroundGradient, setBackgroundGradient] = useState(
-    linearGradients[0]
+    linearGradients[0],
   );
 
   useEffect(() => {
@@ -73,7 +76,8 @@ export const StickyScroll = ({
     <div className="relative">
       <motion.div
         animate={{
-          backgroundColor: backgroundColors[activeCard % backgroundColors.length],
+          backgroundColor:
+            backgroundColors[activeCard % backgroundColors.length],
         }}
         transition={{ duration: 0.5 }}
         className="min-h-screen flex justify-center relative lg:space-x-10 p-4 lg:p-10"
@@ -86,7 +90,9 @@ export const StickyScroll = ({
               <div
                 key={item.title + index}
                 className="min-h-screen flex flex-col justify-center py-20"
-                ref={(el) => { itemRefs.current[index] = el; }}
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
               >
                 <motion.h2
                   animate={{
@@ -123,7 +129,7 @@ export const StickyScroll = ({
               style={{ background: backgroundGradient }}
               className={cn(
                 "h-full w-full rounded-xl overflow-hidden shadow-2xl",
-                contentClassName
+                contentClassName,
               )}
             >
               {content[activeCard]?.content ?? null}
@@ -133,7 +139,7 @@ export const StickyScroll = ({
 
         {/* Mobile content - Simple vertical layout */}
         <div className="lg:hidden w-full">
-          <div className="space-y-8">
+          <div className="space-y-20">
             {content.map((item, index) => (
               <div key={item.title + index} className="w-full">
                 {/* Title */}
@@ -148,8 +154,8 @@ export const StickyScroll = ({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     className={cn(
-                      "h-64 w-full rounded-xl overflow-hidden shadow-2xl mb-4",
-                      contentClassName
+                      "h-64 w-full rounded-xl overflow-hidden shadow-2xl mb-10",
+                      contentClassName,
                     )}
                   >
                     {item.content}

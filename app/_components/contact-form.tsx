@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 const LabelInputContainer = ({
   children,
@@ -37,31 +37,33 @@ const Label = ({
   );
 };
 
-const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={`flex h-10 w-full border-none bg-gray-800 text-white shadow-input rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
+const Input = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ className, type, ...props }, ref) => {
+  return (
+    <input
+      type={type}
+      className={`flex h-10 w-full border-none bg-gray-100 text-black shadow-input rounded-md px-3 py-2 text-sm placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 Input.displayName = "Input";
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <textarea
-        className={`flex min-h-[80px] w-full border-none bg-gray-800 text-white shadow-input rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
+const Textarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <textarea
+      className={`flex min-h-[80px] w-full border-none bg-gray-100 text-black shadow-input rounded-md px-3 py-2 text-sm placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 Textarea.displayName = "Textarea";
 
 export function ContactForm() {
@@ -72,7 +74,9 @@ export function ContactForm() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,11 +88,17 @@ export function ContactForm() {
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-      console.log('EmailJS Config:', { serviceId, templateId, publicKey: publicKey ? 'Set' : 'Missing' });
+      console.log("EmailJS Config:", {
+        serviceId,
+        templateId,
+        publicKey: publicKey ? "Set" : "Missing",
+      });
 
       // Check if all required env vars are present
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS configuration missing. Please check your environment variables.');
+        throw new Error(
+          "EmailJS configuration missing. Please check your environment variables.",
+        );
       }
 
       // Template params that match your EmailJS template exactly
@@ -98,24 +108,24 @@ export function ContactForm() {
         message: formData.message,
       };
 
-      console.log('Sending with params:', templateParams);
+      console.log("Sending with params:", templateParams);
 
       // Send email using EmailJS
       const result = await emailjs.send(
         serviceId,
         templateId,
         templateParams,
-        publicKey
+        publicKey,
       );
 
-      console.log('EmailJS success:', result);
+      console.log("EmailJS success:", result);
       setSubmitStatus("success");
       setFormData({ firstName: "", lastName: "", email: "", message: "" });
     } catch (error) {
-      console.error('EmailJS detailed error:', error);
+      console.error("EmailJS detailed error:", error);
       // Log more details about the error
-      if (error && typeof error === 'object') {
-        console.error('Error details:', JSON.stringify(error, null, 2));
+      if (error && typeof error === "object") {
+        console.error("Error details:", JSON.stringify(error, null, 2));
       }
       setSubmitStatus("error");
     } finally {
@@ -124,10 +134,12 @@ export function ContactForm() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -227,4 +239,3 @@ export function ContactForm() {
     </div>
   );
 }
-

@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import { useMedia } from "react-use";
 
 interface Photo {
   asset: {
@@ -34,12 +35,12 @@ const InfiniteMovingImages = ({
       if (direction === "left") {
         containerRef.current.style.setProperty(
           "--animation-direction",
-          "forwards"
+          "forwards",
         );
       } else {
         containerRef.current.style.setProperty(
           "--animation-direction",
-          "reverse"
+          "reverse",
         );
       }
     }
@@ -83,7 +84,7 @@ const InfiniteMovingImages = ({
       ref={containerRef}
       className={cn(
         "scroller relative z-20 overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className
+        className,
       )}
     >
       <ul
@@ -91,12 +92,12 @@ const InfiniteMovingImages = ({
         className={cn(
           "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
           start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
         {items.map((photo, idx) => (
           <li
-            className="relative w-[200px] h-[150px] shrink-0 rounded-2xl overflow-hidden border border-slate-700"
+            className="relative sm:w-[300px] w-[200px] h-[150px] shrink-0 rounded-2xl overflow-hidden border border-slate-700"
             key={`${photo.asset._id}-${idx}`}
           >
             <Image
@@ -118,6 +119,7 @@ export function MobileInfiniteScrollClient({ photos }: { photos: Photo[] }) {
   const midpoint = Math.ceil(photos.length / 2);
   const firstRowPhotos = photos.slice(0, midpoint);
   const secondRowPhotos = photos.slice(midpoint);
+  const isMobile = useMedia("(max-width: 576px)");
 
   return (
     <div className="w-full bg-black py-8">
@@ -135,6 +137,14 @@ export function MobileInfiniteScrollClient({ photos }: { photos: Photo[] }) {
         direction="left"
         speed="slow"
       />
+
+      {!isMobile && (
+        <InfiniteMovingImages
+          items={firstRowPhotos}
+          direction="right"
+          speed="slow"
+        />
+      )}
     </div>
   );
 }
